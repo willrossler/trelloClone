@@ -5,7 +5,8 @@ const todoInput = document.querySelector('#todo');
 const todoDescription = document.querySelector('#description');
 const deadline = document.querySelector('#deadline');
 const saveButton = document.querySelector('#saveButton');
-// const todoList = document.querySelector('#todoList'); NOT USING?
+const widgetButton = document.querySelector('#widgetButton');
+const widgetList = document.querySelector('#widgetList');
 const tabs1 = document.querySelector('#tabs-1');
 const tabs2 = document.querySelector('#tabs-2');
 const tabs3 = document.querySelector('#tabs-3');
@@ -27,6 +28,7 @@ const inputs = document.getElementsByTagName('input');
 
     //EVENTS
 saveButton.addEventListener('click', addTodo);
+widgetButton.addEventListener('click', widgetFetch);
 
 
 //FUNCTION FOR TODO LIST
@@ -60,6 +62,20 @@ function addTodo(event){
     
 };
 
+function widgetFetch(event) {
+  $.ajax({
+    url: "https://www.boredapi.com/api/activity",
+    contenType: 'application/json',
+    error: function(err) {
+      console.log('something went wrong', err);
+    },
+    success: function(result){
+      const widgetText = document.createElement('li');
+      widgetText.innerText = result.activity;
+      widgetList.append(widgetText);
+    }
+});
+}
 
 //JQUERY
 $(function() {
@@ -97,20 +113,20 @@ $(function() {
       });
     });
 
+// Mandatory UI Widget
+
+  
+
+
 $.fn.colorMyStuff = function() {
   let settings = $.extend({
-    color: '#000',
     fontSize : '50px',
   }, );
 
   return this.css({
-    'color': settings.color,
     'font-size': settings.fontSize,
     'text-decoration': settings.textdecoration
   });
-
 }
-
 });
-
 };
